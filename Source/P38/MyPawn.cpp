@@ -23,11 +23,25 @@ AMyPawn::AMyPawn()
 	Body = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Body"));
 	Body->SetupAttachment(Box);
 
+	// ConstructorHelpers::FObjectFinder<UStaticMesh> = 생성자 전용 함수
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> SM_P38_Body(TEXT("/Script/Engine.StaticMesh'/Game/P38/Meshes/SM_P38_Body.SM_P38_Body'"));
+	if (SM_P38_Body.Succeeded())
+	{
+		Body->SetStaticMesh(SM_P38_Body.Object);
+	}
+
 	Left = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Left"));
 	Left->SetupAttachment(Body);
 
 	Right = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Right"));
 	Right->SetupAttachment(Body);
+
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> SM_Propeller(TEXT("/Script/Engine.StaticMesh'/Game/P38/Meshes/SM_P38_Propeller.SM_P38_Propeller'"));
+	if (SM_Propeller.Succeeded())
+	{
+		Left->SetStaticMesh(SM_Propeller.Object);
+		Right->SetStaticMesh(SM_Propeller.Object);
+	}
 
 	Arrow = CreateDefaultSubobject<UArrowComponent>(TEXT("Arrow"));
 	Arrow->SetupAttachment(Box);
